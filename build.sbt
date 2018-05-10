@@ -1,8 +1,20 @@
-lazy val core = project.in(file("."))
+lazy val root = project.in(file("."))
+  .aggregate(
+    coreJVM,
+    coreJS
+  )
+  .settings(noPublishSettings)
+  .settings(commonSettings, releaseSettings)
+
+
+lazy val core = crossProject.in(file("core"))
     .settings(commonSettings, releaseSettings)
     .settings(
       name := "cats-scalacheck"
     )
+
+lazy val coreJVM = core.jvm
+lazy val coreJS = core.js
 
 val catsV = "1.1.0"
 val scalacheckV = "1.14.0"
@@ -20,11 +32,11 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("org.spire-math" % "kind-projector" % "0.9.6" cross CrossVersion.binary),
 
   libraryDependencies ++= Seq(
-    "org.typelevel"               %% "cats-core"                  % catsV,
-    "org.scalacheck"              %% "scalacheck"                 % scalacheckV,
+    "org.typelevel"               %%% "cats-core"                  % catsV,
+    "org.scalacheck"              %%% "scalacheck"                 % scalacheckV,
 
-    "org.typelevel"               %% "cats-laws"                  % catsV % Test,
-    "org.typelevel"               %% "cats-testkit"               % catsV % Test
+    "org.typelevel"               %%% "cats-laws"                  % catsV % Test,
+    "org.typelevel"               %%% "cats-testkit"               % catsV % Test
   )
 )
 
@@ -91,5 +103,15 @@ lazy val releaseSettings = {
         }
       </developers>
     }
+  )
+}
+
+lazy val noPublishSettings = {
+  import com.typesafe.sbt.pgp.PgpKeys.publishSigned
+  Seq(
+    publish := {},
+    publishLocal := {},
+    publishSigned := {},
+    publishArtifact := false
   )
 }
