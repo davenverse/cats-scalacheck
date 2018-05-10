@@ -9,7 +9,7 @@ object GenInstances extends GenInstances
 trait GenInstances extends GenInstances1
 
 sealed private[instances] trait GenInstances1 extends GenInstances0 {
-  implicit val genInstances : Monad[Gen] with SemigroupK[Gen] = new Monad[Gen] with Alternative[Gen] {
+  implicit val genInstances : Monad[Gen] with Alternative[Gen] = new Monad[Gen] with Alternative[Gen] {
     // Members declared in cats.Applicative
     override def pure[A](x: A): Gen[A] =
       Gen.const(x)
