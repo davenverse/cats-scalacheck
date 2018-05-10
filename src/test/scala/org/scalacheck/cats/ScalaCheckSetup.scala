@@ -10,10 +10,10 @@ import org.scalacheck.rng.Seed
 trait ScalaCheckSetup {
   
   implicit def genEq[A: Eq]: Eq[Gen[A]] =
-    EqInstances.sampledGenEq(100)
+    EqInstances.sampledGenEq(1000)
 
   implicit def cogenEq[A: Arbitrary]: Eq[Cogen[A]] =
-    EqInstances.sampledCogenEq(100)
+    EqInstances.sampledCogenEq(1000)
 
   implicit lazy val arbitrarySeed: Arbitrary[Seed] =
     Arbitrary(Gen.choose(Long.MinValue, Long.MaxValue).map(n => Seed(n)))
@@ -35,7 +35,6 @@ trait ScalaCheckSetup {
     Arbitrary(Gen.oneOf(simple, complex))
   }
 
-  // scalacheck does not have Arbitrary[Cogen[A]] yet.
   implicit def arbitraryCogen[A: Cogen]: Arbitrary[Cogen[A]] =
     Arbitrary(Arbitrary.arbitrary[Seed => Seed].map { f =>
       Cogen((seed, a) => f(Cogen[A].perturb(seed, a)))

@@ -1,16 +1,11 @@
 lazy val core = project.in(file("."))
-    .settings(commonSettings)
+    .settings(commonSettings, releases)
     .settings(
       name := "cats-scalacheck"
     )
 
 val catsV = "1.1.0"
 val scalacheckV = "1.14.0"
-
-
-val specs2V = "4.2.0"
-val disciplineV = "0.8"
-
 
 lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
@@ -26,12 +21,10 @@ lazy val commonSettings = Seq(
 
   libraryDependencies ++= Seq(
     "org.typelevel"               %% "cats-core"                  % catsV,
-    "org.typelevel"               %% "cats-laws"                  % catsV % Test,
-    "org.typelevel"               %% "cats-testkit"               % catsV % Test,
     "org.scalacheck"              %% "scalacheck"                 % scalacheckV,
 
-
-    "org.typelevel"               %% "discipline"                 % disciplineV   % Test
+    "org.typelevel"               %% "cats-laws"                  % catsV % Test,
+    "org.typelevel"               %% "cats-testkit"               % catsV % Test
   )
 )
 
