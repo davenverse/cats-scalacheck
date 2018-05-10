@@ -11,19 +11,29 @@ To use cats-scalacheck in an existing SBT project with Scala 2.11 or a later ver
 libraryDependencies += "io.chrisdavenport" %% "cats-scalacheck" % "<version>"
 ```
 
+## Getting Started
+
+```scala
+import org.scalacheck._
+import org.scalacheck.cats._
+import cats.implicits._
+
+val apComposition: Gen[(Int, String)] = Arbitrary.arbitrary[Int] <*> Arbitrary.arbitrary[String]
+```
+
 ## Instances
 
 ### Gen
 
-- Alternative[Gen]
-- Monad[Gen]
-- Monoid[A] => Monoid[Gen[A]]
-- Semigroup[A] => Semigroup[Gen[A]]
+- `Alternative[Gen]`
+- `Monad[Gen]`
+- `Monoid[A] => Monoid[Gen[A]]`
+- `Semigroup[A] => Semigroup[Gen[A]]`
 
 ### Cogen
 
-- ContravariantSemigroupal[Gen]
-- MonoidK[Gen]
+- `ContravariantSemigroupal[Gen]`
+- `MonoidK[Gen]`
 
 ## Why in org.scalacheck
 
