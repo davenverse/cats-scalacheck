@@ -1,5 +1,5 @@
 lazy val core = project.in(file("."))
-    .settings(commonSettings, releases)
+    .settings(commonSettings, releaseSettings)
     .settings(
       name := "cats-scalacheck"
     )
