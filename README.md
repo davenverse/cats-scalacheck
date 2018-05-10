@@ -15,7 +15,7 @@ libraryDependencies += "io.chrisdavenport" %% "cats-scalacheck" % "<version>"
 
 ```scala
 import org.scalacheck._
-import org.scalacheck.cats._
+import org.scalacheck.cats.implicits._
 import cats.implicits._
 
 val apComposition: Gen[(Int, String)] = Arbitrary.arbitrary[Int] <*> Arbitrary.arbitrary[String]
