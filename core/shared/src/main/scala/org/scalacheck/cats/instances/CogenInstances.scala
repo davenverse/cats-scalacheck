@@ -18,7 +18,6 @@ trait CogenInstances{
         Cogen.tuple2(fa, fb)
     }
 
-
   implicit val cogenMonoidK: MonoidK[Cogen] =
     new MonoidK[Cogen] {
       def empty[A]: Cogen[A] =
