@@ -27,6 +27,8 @@ sealed private[instances] trait GenInstances1 extends GenInstances0 {
     }
 
     override def empty[A]: Gen[A] = Gen.fail
+
+    override def product[A, B](fa: Gen[A], fb: Gen[B]): Gen[(A, B)] = Gen.zip(fa, fb)
   }
 
   implicit def genMonoid[A: Monoid]: Monoid[Gen[A]] = new Monoid[Gen[A]]{
