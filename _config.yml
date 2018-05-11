@@ -1,0 +1,11 @@
+name: cats-scalacheck
+baseurl: /cats-scalacheck
+description: Cats Instances for Scalacheck
+highlighter: rouge
+docs: true
+collections:
+  tut:
+    output: true
+version: 0.0.3-SNAPSHOT
+org: io.chrisdavenport
+markdown: kramdown
