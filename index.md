@@ -28,7 +28,7 @@ scala> val apComposition: Gen[(Int, String)] = Applicative[Gen].product(
      |   Arbitrary.arbitrary[Int],
      |   Arbitrary.arbitrary[String]
      | )
-apComposition: org.scalacheck.Gen[(Int, String)] = org.scalacheck.Gen$$anon$3@70674be4
+apComposition: org.scalacheck.Gen[(Int, String)] = org.scalacheck.Gen$$anon$1@2a62c038
 ```
 
 ## Instances
