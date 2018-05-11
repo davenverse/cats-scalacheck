@@ -1,7 +1,8 @@
 lazy val root = project.in(file("."))
   .aggregate(
     coreJVM,
-    coreJS
+    coreJS,
+    docs
   )
   .settings(noPublishSettings)
   .settings(commonSettings, releaseSettings)
@@ -15,6 +16,13 @@ lazy val core = crossProject.in(file("core"))
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
+
+lazy val docs = project.in(file("docs"))
+  .settings(noPublishSettings)
+  .settings(commonSettings, micrositeSettings)
+  .enablePlugins(MicrositesPlugin)
+  .enablePlugins(TutPlugin)
+  .dependsOn(coreJVM)
 
 val catsV = "1.1.0"
 val scalacheckV = "1.14.0"
@@ -30,6 +38,7 @@ lazy val commonSettings = Seq(
   crossScalaVersions := Seq(scalaVersion.value, "2.11.12"),
 
   addCompilerPlugin("org.spire-math" % "kind-projector" % "0.9.6" cross CrossVersion.binary),
+  addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.2.4"),
 
   libraryDependencies ++= Seq(
     "org.typelevel"               %%% "cats-core"                  % catsV,
@@ -102,6 +111,65 @@ lazy val releaseSettings = {
         </developer>
         }
       </developers>
+    }
+  )
+}
+
+lazy val micrositeSettings = Seq(
+  micrositeName := "cats-scalacheck",
+  micrositeDescription := "Cats Instances for Scalacheck",
+  micrositeAuthor := "Christopher Davenport",
+  micrositeGithubOwner := "ChristopherDavenport",
+  micrositeGithubRepo := "cats-scalacheck",
+  micrositeBaseUrl := "/cats-scalacheck",
+  micrositeDocumentationUrl := "https://christopherdavenport.github.io/cats-scalacheck",
+  micrositeFooterText := None,
+  micrositeHighlightTheme := "atom-one-light",
+  micrositePalette := Map(
+    "brand-primary" -> "#3e5b95",
+    "brand-secondary" -> "#294066",
+    "brand-tertiary" -> "#2d5799",
+    "gray-dark" -> "#49494B",
+    "gray" -> "#7B7B7E",
+    "gray-light" -> "#E5E5E6",
+    "gray-lighter" -> "#F4F3F4",
+    "white-color" -> "#FFFFFF"
+  ),
+  fork in tut := true,
+  scalacOptions in Tut --= Seq(
+    "-Xfatal-warnings",
+    "-Ywarn-unused-import",
+    "-Ywarn-numeric-widen",
+    "-Ywarn-dead-code",
+    "-Ywarn-unused:imports",
+    "-Xlint:-missing-interpolator,_"
+  ),
+  libraryDependencies += "com.47deg" %% "github4s" % "0.18.4",
+  micrositePushSiteWith := GitHub4s,
+  micrositeGithubToken := sys.env.get("GITHUB_TOKEN")
+)
+
+// Not Used Currently
+lazy val mimaSettings = {
+  import sbtrelease.Version
+  def mimaVersion(version: String) = {
+    Version(version) match {
+      case Some(Version(major, Seq(minor, patch), _)) if patch.toInt > 0 =>
+        Some(s"${major}.${minor}.${patch.toInt - 1}")
+      case _ =>
+        None
+    }
+  }
+
+  Seq(
+    mimaFailOnProblem := mimaVersion(version.value).isDefined,
+    mimaPreviousArtifacts := (mimaVersion(version.value) map {
+      organization.value % s"${moduleName.value}_${scalaBinaryVersion.value}" % _
+    }).toSet,
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      import com.typesafe.tools.mima.core.ProblemFilters._
+      Seq()
     }
   )
 }
