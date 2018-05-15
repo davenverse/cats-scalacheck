@@ -28,6 +28,9 @@ sealed private[instances] trait GenInstances1 extends GenInstances0 {
 
     override def empty[A]: Gen[A] = Gen.fail
 
+    override def map2Eval[A, B, Z](fa: Gen[A], fb: Eval[Gen[B]])(f: (A, B) => Z): Eval[Gen[Z]] =
+      Eval.later(map2(fa, Gen.lzy(fb.value))(f))
+    
     override def product[A, B](fa: Gen[A], fb: Gen[B]): Gen[(A, B)] = Gen.zip(fa, fb)
   }
 
