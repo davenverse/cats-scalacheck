@@ -9,7 +9,7 @@ lazy val root = project.in(file("."))
 
 
 lazy val core = crossProject.in(file("core"))
-    .settings(commonSettings, releaseSettings)
+    .settings(commonSettings, releaseSettings, mimaSettings)
     .settings(
       name := "cats-scalacheck"
     )
