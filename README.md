@@ -32,8 +32,8 @@ val apComposition: Gen[(Int, String)] = Arbitrary.arbitrary[Int] <*> Arbitrary.a
 
 ### Cogen
 
-- `ContravariantSemigroupal[Gen]`
-- `MonoidK[Gen]`
+- `ContravariantSemigroupal[Cogen]`
+- `MonoidK[Cogen]`
 
 ## Why in org.scalacheck
 
