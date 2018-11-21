@@ -14,6 +14,8 @@ class GenLaws extends CatsSuite with ScalaCheckSetup {
   checkAll("Gen", AlternativeTests[Gen].alternative[Int, Int, Int])
   // Tests Monad
   checkAll("Gen", MonadTests[Gen].monad[Int, Int, Int])
+  // Tests FunctorFilter
+  checkAll("Gen.FunctorFilterLaws", FunctorFilterTests[Gen].functorFilter[Int, Int, Int])
 
   // Tests Monoid for Inner Given Monoid
   checkAll("Gen[String]", MonoidTests[Gen[String]].monoid)

@@ -27,6 +27,7 @@ val apComposition: Gen[(Int, String)] = Arbitrary.arbitrary[Int] <*> Arbitrary.a
 
 - `Alternative[Gen]`
 - `Monad[Gen]`
+- `FunctorFilter[Gen]`
 - `Monoid[A] => Monoid[Gen[A]]`
 - `Semigroup[A] => Semigroup[Gen[A]]`
 
