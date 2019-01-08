@@ -33,6 +33,7 @@ val apComposition: Gen[(Int, String)] = Applicative[Gen].product(
 
 - `Alternative[Gen]`
 - `Monad[Gen]`
+- `FunctorFilter[Gen]`
 - `Monoid[A] => Monoid[Gen[A]]`
 - `Semigroup[A] => Semigroup[Gen[A]]`
 
