@@ -2,7 +2,6 @@ lazy val root = project.in(file("."))
   .aggregate(
     coreJVM,
     coreJS,
-    docs
   )
   .settings(noPublishSettings)
   .settings(commonSettings, releaseSettings)
