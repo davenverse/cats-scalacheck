@@ -5,3 +5,7 @@ target/
 
 # Ignore [ce]tags files
 tags
+
+# VS Code
+.metals
+.bloop
