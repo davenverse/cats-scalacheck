@@ -12,6 +12,9 @@ trait ScalaCheckSetup {
   implicit def genEq[A: Eq]: Eq[Gen[A]] =
     EqInstances.sampledGenEq(1000)
 
+  implicit def arbEq[A: Eq]: Eq[Arbitrary[A]] =
+    EqInstances.sampledArbitraryEq(1000)
+
   implicit def cogenEq[A: Arbitrary]: Eq[Cogen[A]] =
     EqInstances.sampledCogenEq(1000)
 
@@ -34,6 +37,9 @@ trait ScalaCheckSetup {
     }
     Arbitrary(Gen.oneOf(simple, complex))
   }
+
+  implicit def arbitraryArbitrary[A: Arbitrary]: Arbitrary[Arbitrary[A]] = 
+    Arbitrary(arbitraryGen[A].arbitrary.map(Arbitrary(_)))
 
   implicit def arbitraryCogen[A: Cogen]: Arbitrary[Cogen[A]] =
     Arbitrary(Arbitrary.arbitrary[Seed => Seed].map { f =>
