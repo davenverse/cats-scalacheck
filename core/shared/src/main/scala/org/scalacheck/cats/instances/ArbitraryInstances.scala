@@ -11,8 +11,8 @@ trait ArbitraryInstances extends ArbitraryInstances1
 sealed private[instances] trait ArbitraryInstances1 extends ArbitraryInstances0 {
   import GenInstances._
 
-  implicit val arbitraryInstances : Monad[Arbitrary] with Alternative[Arbitrary] with FunctorFilter[Arbitrary] = 
-    new Monad[Arbitrary] with Alternative[Arbitrary] with FunctorFilter[Arbitrary] {
+  implicit val arbitraryInstances : StackSafeMonad[Arbitrary] with Alternative[Arbitrary] with FunctorFilter[Arbitrary] = 
+    new StackSafeMonad[Arbitrary] with Alternative[Arbitrary] with FunctorFilter[Arbitrary] {
     // Members declared in cats.Applicative
     override def pure[A](x: A): Arbitrary[A] =
       Arbitrary(Gen.const(x))
@@ -20,24 +20,18 @@ sealed private[instances] trait ArbitraryInstances1 extends ArbitraryInstances0 
     // Members declared in cats.FlatMap
     override def flatMap[A, B](fa: Arbitrary[A])(f: A => Arbitrary[B]): Arbitrary[B] = 
       fa.flatMap(f)
-    override def tailRecM[A, B](a: A)(f: A => Arbitrary[Either[A,B]]): Arbitrary[B] =
-      Arbitrary(Gen.tailRecM(a)(f.andThen(_.arbitrary)))
 
     override def combineK[A](x: Arbitrary[A], y: Arbitrary[A]): Arbitrary[A] = Arbitrary(
-      Gen.gen{ (params, seed) => 
-        val xGen = x.arbitrary.doApply(params, seed)
-        if (xGen.retrieve.isDefined) xGen
-        else y.arbitrary.doApply(params, seed)
-      }
+      MonoidK[Gen].combineK(x.arbitrary, y.arbitrary)
     )
 
-    override def empty[A]: Arbitrary[A] = Arbitrary(Gen.fail)
+    override def empty[A]: Arbitrary[A] = Arbitrary(MonoidK[Gen].empty[A])
 
     override def map2Eval[A, B, Z](fa: Arbitrary[A], fb: Eval[Arbitrary[B]])(f: (A, B) => Z): Eval[Arbitrary[Z]] =
-      Eval.later(Applicative[Gen].map2(fa.arbitrary, Gen.lzy(fb.value.arbitrary))(f)).map(Arbitrary(_))
+      fb.flatMap(arb => Eval.later(Applicative[Gen].map2(fa.arbitrary, Gen.lzy(arb.arbitrary))(f))).map(Arbitrary(_))
     
     override def product[A, B](fa: Arbitrary[A], fb: Arbitrary[B]): Arbitrary[(A, B)] =
-      Arbitrary(Gen.zip(fa.arbitrary, fb.arbitrary))
+      Arbitrary(Applicative[Gen].product(fa.arbitrary, fb.arbitrary))
 
     override def functor: Functor[Arbitrary] = this
 
