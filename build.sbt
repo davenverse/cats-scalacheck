@@ -23,7 +23,8 @@ lazy val docs = project.in(file("docs"))
   .enablePlugins(TutPlugin)
   .dependsOn(coreJVM)
 
-val catsV = "2.0.0-M1"
+// Different versions because for unknown reason tut doesn't work with cats-2.0.0-M1 with scala 2.12
+def catsV(scalaVersion: String) = if (scalaVersion startsWith "2.13.") "2.0.0-M1" else "1.6.0"
 val scalacheckV = "1.14.0"
 
 lazy val contributors = Seq(
@@ -40,11 +41,11 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.0"),
 
   libraryDependencies ++= Seq(
-    "org.typelevel"               %%% "cats-core"                  % catsV,
+    "org.typelevel"               %%% "cats-core"                  % catsV(scalaVersion.value),
     "org.scalacheck"              %%% "scalacheck"                 % scalacheckV,
 
-    "org.typelevel"               %%% "cats-laws"                  % catsV % Test,
-    "org.typelevel"               %%% "cats-testkit"               % catsV % Test
+    "org.typelevel"               %%% "cats-laws"                  % catsV(scalaVersion.value) % Test,
+    "org.typelevel"               %%% "cats-testkit"               % catsV(scalaVersion.value) % Test
   )
 )
 
