@@ -1,17 +1,21 @@
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
 lazy val root = project.in(file("."))
   .aggregate(
     coreJVM,
-    coreJS,
+    coreJS
   )
   .settings(noPublishSettings)
   .settings(commonSettings, releaseSettings)
 
 
-lazy val core = crossProject.in(file("core"))
-    .settings(commonSettings, releaseSettings, mimaSettings)
-    .settings(
-      name := "cats-scalacheck"
-    )
+lazy val core = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("core"))
+  .settings(commonSettings, releaseSettings, mimaSettings)
+  .settings(
+    name := "cats-scalacheck"
+  )
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -23,7 +27,7 @@ lazy val docs = project.in(file("docs"))
   .enablePlugins(TutPlugin)
   .dependsOn(coreJVM)
 
-val catsV = "1.6.1"
+val catsV = "2.0.0-M4"
 val scalacheckV = "1.14.0"
 
 lazy val contributors = Seq(
@@ -34,10 +38,10 @@ lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
   scalaVersion := "2.12.8",
-  crossScalaVersions := Seq(scalaVersion.value, "2.11.12", "2.13.0-M5"),
+  crossScalaVersions := Seq(scalaVersion.value, "2.11.12", "2.13.0"),
 
-  addCompilerPlugin("org.spire-math" % "kind-projector" % "0.9.9" cross CrossVersion.binary),
-  addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.0-M4"),
+  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.10.3" cross CrossVersion.binary),
+  addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.0"),
 
   libraryDependencies ++= Seq(
     "org.typelevel"               %%% "cats-core"                  % catsV,
