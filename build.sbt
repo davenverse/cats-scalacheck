@@ -1,6 +1,7 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 lazy val root = project.in(file("."))
+  .disablePlugins(MimaPlugin)
   .aggregate(
     coreJVM,
     coreJS
@@ -165,6 +166,7 @@ lazy val mimaSettings = {
   }
 
   Seq(
+    mimaFailOnNoPrevious := false,
     mimaFailOnProblem := mimaVersion(version.value).isDefined,
     mimaPreviousArtifacts := (mimaVersion(version.value) map {
       organization.value % s"${moduleName.value}_${scalaBinaryVersion.value}" % _
