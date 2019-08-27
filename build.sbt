@@ -28,7 +28,7 @@ lazy val docs = project.in(file("docs"))
   .enablePlugins(TutPlugin)
   .dependsOn(coreJVM)
 
-val catsV = "2.0.0-M4"
+val catsV = "2.0.0-RC2"
 val scalacheckV = "1.14.0"
 
 lazy val contributors = Seq(
