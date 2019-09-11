@@ -28,7 +28,8 @@ lazy val docs = project.in(file("docs"))
   .enablePlugins(TutPlugin)
   .dependsOn(coreJVM)
 
-val catsV = "2.0.0-M4"
+val catsV = "2.0.0"
+val catsTestkitV = "1.0.0-M1"
 val scalacheckV = "1.14.0"
 
 lazy val contributors = Seq(
@@ -49,7 +50,7 @@ lazy val commonSettings = Seq(
     "org.scalacheck"              %%% "scalacheck"                 % scalacheckV,
 
     "org.typelevel"               %%% "cats-laws"                  % catsV % Test,
-    "org.typelevel"               %%% "cats-testkit"               % catsV % Test
+    "org.typelevel"               %%% "cats-testkit-scalatest"     % catsTestkitV % Test
   )
 )
 
