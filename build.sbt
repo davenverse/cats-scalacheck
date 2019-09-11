@@ -13,7 +13,7 @@ lazy val root = project.in(file("."))
 lazy val core = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Full)
   .in(file("core"))
-  .settings(commonSettings, releaseSettings, mimaSettings)
+  .settings(commonSettings, releaseSettings)
   .settings(
     name := "cats-scalacheck"
   )
@@ -153,32 +153,6 @@ lazy val micrositeSettings = Seq(
   micrositePushSiteWith := GitHub4s,
   micrositeGithubToken := sys.env.get("GITHUB_TOKEN")
 )
-
-// Not Used Currently
-lazy val mimaSettings = {
-  import sbtrelease.Version
-  def mimaVersion(version: String) = {
-    Version(version) match {
-      case Some(Version(major, Seq(minor, patch), _)) if patch.toInt > 0 =>
-        Some(s"${major}.${minor}.${patch.toInt - 1}")
-      case _ =>
-        None
-    }
-  }
-
-  Seq(
-    mimaFailOnNoPrevious := false,
-    mimaFailOnProblem := mimaVersion(version.value).isDefined,
-    mimaPreviousArtifacts := (mimaVersion(version.value) map {
-      organization.value % s"${moduleName.value}_${scalaBinaryVersion.value}" % _
-    }).toSet,
-    mimaBinaryIssueFilters ++= {
-      import com.typesafe.tools.mima.core._
-      import com.typesafe.tools.mima.core.ProblemFilters._
-      Seq()
-    }
-  )
-}
 
 lazy val noPublishSettings = {
   import com.typesafe.sbt.pgp.PgpKeys.publishSigned
