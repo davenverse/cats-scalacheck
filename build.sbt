@@ -30,7 +30,7 @@ lazy val docs = project.in(file("docs"))
 
 val catsV = "2.0.0"
 val catsTestkitV = "1.0.0-M2"
-val scalacheckV = "1.14.1"
+val scalacheckV = "1.14.2"
 
 lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
