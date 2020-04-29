@@ -15,11 +15,10 @@ libraryDependencies += "io.chrisdavenport" %% "cats-scalacheck" % "<version>"
 
 ## Getting Started
 
-```tut
+```scala mdoc
 import org.scalacheck.{Gen, Arbitrary}
 import org.scalacheck.cats.implicits._
 import cats.Applicative
-import cats.implicits._
 
 val apComposition: Gen[(Int, String)] = Applicative[Gen].product(
   Arbitrary.arbitrary[Int],

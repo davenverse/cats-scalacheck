@@ -1,10 +1,9 @@
 sudo: false
 language: scala
 
-scala:
-  - 2.12.8
-  - 2.11.12
-  - 2.13.0
+scala_211: &scala_211 2.11.12
+scala_212: &scala_212 2.12.11
+scala_213: &scala_213 2.13.2
 
 before_cache:
   - find $HOME/.sbt -name "*.lock" -type f -delete
@@ -28,18 +27,31 @@ install:
   - gem install sass
   - gem install jekyll -v 3.2.1
 
-script:
-  - sbt ++$TRAVIS_SCALA_VERSION test
+stages:
+  - name: test
+  - name: doc-deploy
+    if: "((branch = master AND type = push) OR (tag IS present)) AND NOT fork"
 
-after_success:
-  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && test $TRAVIS_REPO_SLUG == "ChristopherDavenport/cats-scalacheck" && sbt ++$TRAVIS_SCALA_VERSION publish
-
-matrix:
+jobs:
   include:
-    - scala: 2.12.8
+    - &all_tests
+      stage: test
+      env: TEST="all_tests"
+      script: sbt ++$TRAVIS_SCALA_VERSION test
+      scala: *scala_211
+    - <<: *all_tests
+      env: TEST="all_tests"
+      scala: *scala_212
+    - <<: *all_tests
+      env: TEST="all_tests"
+      scala: *scala_213
+    - env: TEST="docs"
       script:
-        - sbt ++$TRAVIS_SCALA_VERSION project docs/compile
+        - sbt ++$TRAVIS_SCALA_VERSION docs/mdoc
         - sbt ++$TRAVIS_SCALA_VERSION mimaReportBinaryIssues
         - sbt ++$TRAVIS_SCALA_VERSION docs/makeMicrosite
-      after_success:
-        - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && test $TRAVIS_REPO_SLUG == "ChristopherDavenport/cats-scalacheck" && sbt ++$TRAVIS_SCALA_VERSION docs/publishMicrosite
+      scala: *scala_212
+    - stage: doc-deploy
+      scala: *scala_212
+      script:
+        - sbt ++$TRAVIS_SCALA_VERSION docs/publishMicrosite
