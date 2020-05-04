@@ -29,7 +29,7 @@ lazy val docs = project.in(file("docs"))
   .dependsOn(coreJVM)
 
 val catsV = "2.0.0"
-val catsTestkitV = "1.0.0-M2"
+val catsTestkitV = "1.0.0-RC1"
 val scalacheckV = "1.14.3"
 
 lazy val contributors = Seq(
