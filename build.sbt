@@ -28,8 +28,8 @@ lazy val docs = project.in(file("docs"))
   .enablePlugins(TutPlugin)
   .dependsOn(coreJVM)
 
-val catsV = "2.0.0"
-val catsTestkitV = "1.0.0-RC1"
+val catsV = "2.1.1"
+val catsTestkitV = "1.0.1"
 val scalacheckV = "1.14.3"
 
 lazy val contributors = Seq(
@@ -39,8 +39,8 @@ lazy val contributors = Seq(
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
-  scalaVersion := "2.12.8",
-  crossScalaVersions := Seq(scalaVersion.value, "2.11.12", "2.13.0"),
+  scalaVersion := "2.12.10",
+  crossScalaVersions := Seq(scalaVersion.value, "2.13.0"),
 
   addCompilerPlugin("org.typelevel" % "kind-projector" % "0.10.3" cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
