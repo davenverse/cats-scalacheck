@@ -36,8 +36,8 @@ lazy val docs = project.in(file("cats-scalacheck-docs"))
   )
   .dependsOn(coreJVM)
 
-val catsV = "2.0.0"
-val catsTestkitV = "1.0.0-RC1"
+val catsV = "2.1.1"
+val catsTestkitV = "1.0.1"
 val scalacheckV = "1.14.3"
 
 lazy val contributors = Seq(
@@ -47,7 +47,7 @@ lazy val contributors = Seq(
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
-  crossScalaVersions := Seq("2.11.12", "2.12.11", "2.13.2"),
+  crossScalaVersions := Seq("2.12.11", "2.13.2"),
 
   addCompilerPlugin("org.typelevel" % "kind-projector" % "0.10.3" cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),

@@ -1,7 +1,6 @@
 sudo: false
 language: scala
 
-scala_211: &scala_211 2.11.12
 scala_212: &scala_212 2.12.11
 scala_213: &scala_213 2.13.2
 
@@ -36,10 +35,6 @@ jobs:
   include:
     - &all_tests
       stage: test
-      env: TEST="all_tests"
-      script: sbt ++$TRAVIS_SCALA_VERSION test
-      scala: *scala_211
-    - <<: *all_tests
       env: TEST="all_tests"
       scala: *scala_212
     - <<: *all_tests
