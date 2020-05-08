@@ -33,6 +33,12 @@ object EqInstances {
         loop(trials, trials, Seed.random)
       }
     }
+
+    def sampledArbitraryEq[A: Eq](trials: Int): Eq[Arbitrary[A]] = {
+      implicit val genEq : Eq[Gen[A]] = sampledGenEq[A](trials)
+      Eq.by(_.arbitrary)
+    }
+
     def sampledGenEq[A: Eq](trials: Int): Eq[Gen[A]] = Eq.instance[Gen[A]]{ case (x, y) =>
       val params = Gen.Parameters.default
       def loop(count: Int, seed: Seed): Boolean =

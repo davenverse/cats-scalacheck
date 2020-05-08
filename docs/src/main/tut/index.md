@@ -44,7 +44,15 @@ val apComposition: Gen[(Int, String)] = Applicative[Gen].product(
 - `Monoid[A] => Monoid[Gen[A]]`
 - `Semigroup[A] => Semigroup[Gen[A]]`
 
+### Arbitrary
+
+- `Alternative[Arbitrary]`
+- `Monad[Arbitrary]`
+- `FunctorFilter[Arbitrary]`
+- `Monoid[A] => Monoid[Arbitrary[A]]`
+- `Semigroup[A] => Semigroup[Arbitrary[A]]`
+
 ### Cogen
 
-- `ContravariantSemigroupal[Gen]`
-- `MonoidK[Gen]`
+- `ContravariantSemigroupal[Cogen]`
+- `MonoidK[Cogen]`
