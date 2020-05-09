@@ -21,11 +21,19 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
-lazy val docs = project.in(file("docs"))
+lazy val docs = project.in(file("cats-scalacheck-docs"))
+  .enablePlugins(MicrositesPlugin)
+  .enablePlugins(MdocPlugin)
   .settings(noPublishSettings)
   .settings(commonSettings, micrositeSettings)
-  .enablePlugins(MicrositesPlugin)
-  .enablePlugins(TutPlugin)
+  .settings(
+    name := "cats-scalacheck-docs",
+    crossScalaVersions := Seq("2.12.11"),
+    moduleName := "cats-scalacheck-docs",
+    mdocVariables := Map(
+      "VERSION" -> version.value
+    ),
+  )
   .dependsOn(coreJVM)
 
 val catsV = "2.1.1"
@@ -39,8 +47,7 @@ lazy val contributors = Seq(
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
-  scalaVersion := "2.12.10",
-  crossScalaVersions := Seq(scalaVersion.value, "2.13.0"),
+  crossScalaVersions := Seq("2.12.11", "2.13.2"),
 
   addCompilerPlugin("org.typelevel" % "kind-projector" % "0.10.3" cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
