@@ -4,12 +4,20 @@ Inspiration Was Taken From the never published cats-check. Instances for Cats fo
 
 ## Quick Start
 
-To use cats-scalacheck in an existing SBT project with Scala 2.11 or a later version, add the following dependency to your
-`build.sbt`:
+`cats-scalacheck` is published for scala 2.12 and 2.13, and scalajs 1.0.0. If you require scalajs 0.6 and/or scala 2.11, you may use the last version of this project: `0.2.0`
+
+To use cats-scalacheck in an existing SBT project, add the following dependency to your `build.sbt`:
 
 ```scala
 libraryDependencies += "io.chrisdavenport" %% "cats-scalacheck" % "<version>"
 ```
+
+For use with scalajs 1.0.x:
+
+```scala
+libraryDependencies += "io.chrisdavenport" %%% "cats-scalacheck" % "<version>"
+```
+
 
 ## Getting Started
 
