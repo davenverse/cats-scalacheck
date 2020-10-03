@@ -48,6 +48,10 @@ val apComposition: Gen[(Int, String)] = Applicative[Gen].product(
 - `ContravariantSemigroupal[Cogen]`
 - `MonoidK[Cogen]`
 
+## Generators & Arbitrarys
+
+- `Ior[A, B]`
+
 ## Why in org.scalacheck
 
 This was necessary because scalacheck makes some of their instances package private that
