@@ -2,7 +2,7 @@ package org.scalacheck.cats
 
 import cats._
 import cats.data._
-import cats.implicits._
+import cats.syntax.all._
 import org.scalacheck._
 import org.scalacheck.cats.implicits._
 import org.scalacheck.rng.Seed
