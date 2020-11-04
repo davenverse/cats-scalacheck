@@ -2,7 +2,7 @@
 layout: home
 
 ---
-# cats-scalacheck [![Build Status](https://travis-ci.org/ChristopherDavenport/cats-scalacheck.svg?branch=master)](https://travis-ci.org/ChristopherDavenport/cats-scalacheck) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.chrisdavenport/cats-scalacheck_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.chrisdavenport/cats-scalacheck_2.12)
+# cats-scalacheck [![Build Status](https://github.com/Tomahna/cats-scalacheck/workflows/CI/badge.svg)](https://github.com/Tomahna/cats-scalacheck/workflows/CI/badge.svg) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.chrisdavenport/cats-scalacheck_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.chrisdavenport/cats-scalacheck_2.12)
 
 ## Quick Start
 
