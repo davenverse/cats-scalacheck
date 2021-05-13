@@ -36,7 +36,7 @@ lazy val docs = project.in(file("cats-scalacheck-docs"))
   )
   .dependsOn(coreJVM)
 
-val catsV = "2.3.1"
+val catsV = "2.6.1"
 val catsTestkitV = "2.1.1"
 val scalacheckV = "1.15.2"
 
