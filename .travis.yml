@@ -2,7 +2,7 @@ sudo: false
 language: scala
 
 scala_212: &scala_212 2.12.11
-scala_213: &scala_213 2.13.2
+scala_213: &scala_213 2.13.6
 
 before_cache:
   - find $HOME/.sbt -name "*.lock" -type f -delete
