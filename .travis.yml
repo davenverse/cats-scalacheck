@@ -1,7 +1,7 @@
 sudo: false
 language: scala
 
-scala_212: &scala_212 2.12.11
+scala_212: &scala_212 2.12.14
 scala_213: &scala_213 2.13.2
 
 before_cache:

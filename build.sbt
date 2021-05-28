@@ -28,7 +28,7 @@ lazy val docs = project.in(file("cats-scalacheck-docs"))
   .settings(commonSettings, micrositeSettings)
   .settings(
     name := "cats-scalacheck-docs",
-    crossScalaVersions := Seq("2.12.11"),
+    crossScalaVersions := Seq("2.12.14"),
     moduleName := "cats-scalacheck-docs",
     mdocVariables := Map(
       "VERSION" -> version.value
@@ -47,7 +47,7 @@ lazy val contributors = Seq(
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
-  crossScalaVersions := Seq("2.12.11", "2.13.2"),
+  crossScalaVersions := Seq("2.12.14", "2.13.2"),
 
   addCompilerPlugin("org.typelevel" % "kind-projector" % "0.10.3" cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
