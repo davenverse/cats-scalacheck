@@ -31,7 +31,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
-lazy val docs = project.in(file("cats-scalacheck-docs"))
+lazy val site = project.in(file("site"))
   .disablePlugins(MimaPlugin)
   .enablePlugins(NoPublishPlugin)
   .enablePlugins(DavenverseMicrositePlugin)
