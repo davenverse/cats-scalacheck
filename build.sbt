@@ -25,7 +25,10 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 
       "org.typelevel"               %%% "cats-laws"                  % catsV % Test,
       "org.typelevel"               %%% "cats-testkit-scalatest"     % catsTestkitV % Test
-    )
+    ),
+    mimaVersionCheckExcludedVersions := {
+      if (isDotty.value) Set("0.3.0") else Set()
+    }
   )
 
 lazy val coreJVM = core.jvm
