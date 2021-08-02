@@ -37,7 +37,6 @@ lazy val site = project.in(file("site"))
   .enablePlugins(DavenverseMicrositePlugin)
   .settings(
     name := "cats-scalacheck-docs",
-    crossScalaVersions := Seq("2.12.11"),
     moduleName := "cats-scalacheck-docs",
     mdocVariables := Map(
       "VERSION" -> version.value
