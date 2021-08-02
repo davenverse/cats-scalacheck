@@ -6,7 +6,7 @@ import rng.Seed
 import scala.util._
 
 object EqInstances {
-  def sampledCogenEq[A](trials: Int)(implicit ev: Arbitrary[A]): Eq[Cogen[A]] =
+  def sampledCogenEq[A](trials: Int)(implicit ev: Arbitrary[A]): Eq[Cogen[A]] = {
     new Eq[Cogen[A]] {
       def eqv(x: Cogen[A], y: Cogen[A]): Boolean = {
         val gen : Gen[A] = ev.arbitrary
@@ -22,7 +22,7 @@ object EqInstances {
             rx.retrieve.fold(
               loop(count, retries - 1, rx.seed) // Loop As Necessary
             ){ a => 
-              val seed = Seed.random
+              val seed = Seed.random()
               val sx = x.perturb(seed, a)
               val sy = y.perturb(seed, a)
               if (sx != sy) false // If they are not equivalent
@@ -30,12 +30,14 @@ object EqInstances {
             }
           }
         // Initiate Loop
-        loop(trials, trials, Seed.random)
+        loop(trials, trials, Seed.random())
       }
     }
-    def sampledGenEq[A: Eq](trials: Int): Eq[Gen[A]] = Eq.instance[Gen[A]]{ case (x, y) =>
+  }
+
+  def sampledGenEq[A: Eq](trials: Int): Eq[Gen[A]] = Eq.instance[Gen[A]]{ case (x, y) =>
       val params = Gen.Parameters.default
-      def loop(count: Int, seed: Seed): Boolean =
+      def loop(count: Int, seed: Seed): Boolean = {
         if (count <= 0) true 
         else {
           // Leave this so the inequality creates the eq
@@ -44,15 +46,16 @@ object EqInstances {
           (tx, ty) match {
             case (Failure(_), Failure(_)) =>
               // They both failed, good, keep going
-              loop(count - 1, Seed.random)
+              loop(count - 1, Seed.random())
             case (Success(rx), Success(ry)) =>
-              if (rx.retrieve != ry.retrieve) false
+              if (Eq[Option[A]].neqv(rx.retrieve, ry.retrieve)) false
               else loop(count - 1, seed.next)
             case _ =>
               false
           }
         }
-    loop(trials, Seed.random)
+      }
+      loop(trials, Seed.random())
   }
 
 }
