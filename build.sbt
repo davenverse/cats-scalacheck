@@ -2,19 +2,20 @@ import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 ThisBuild / crossScalaVersions := Seq("2.12.16", "2.13.8", "3.1.3")
 
-val catsV = "2.6.1"
+val catsV = "2.8.0"
 val disciplineMunit = "2.0.0-M3"
-val scalacheckV = "1.15.4"
+val scalacheckV = "1.16.0"
 
 lazy val root = project.in(file("."))
   .disablePlugins(MimaPlugin)
   .enablePlugins(NoPublishPlugin)
   .aggregate(
     coreJVM,
-    coreJS
+    coreJS,
+    coreNative
   )
 
-lazy val core = crossProject(JSPlatform, JVMPlatform)
+lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .in(file("core"))
   .settings(
@@ -30,10 +31,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
       if (isDotty.value) Set("0.3.0") else Set()
     }
   )
-  .jvmSettings(Test / fork := true)
+  .nativeSettings(
+    mimaVersionCheckExcludedVersions += "0.3.1"
+  )
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
+lazy val coreNative = core.native
 
 lazy val site = project.in(file("site"))
   .disablePlugins(MimaPlugin)
