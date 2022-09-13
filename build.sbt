@@ -3,7 +3,7 @@ import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 ThisBuild / crossScalaVersions := Seq("2.12.16", "2.13.8", "3.1.3")
 
 val catsV = "2.6.1"
-val catsTestkitV = "2.1.5"
+val disciplineMunit = "2.0.0-M3"
 val scalacheckV = "1.15.4"
 
 lazy val root = project.in(file("."))
@@ -24,12 +24,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
       "org.scalacheck"              %%% "scalacheck"                 % scalacheckV,
 
       "org.typelevel"               %%% "cats-laws"                  % catsV % Test,
-      "org.typelevel"               %%% "cats-testkit-scalatest"     % catsTestkitV % Test
+      "org.typelevel"               %%% "discipline-munit"           % disciplineMunit % Test
     ),
     mimaVersionCheckExcludedVersions := {
       if (isDotty.value) Set("0.3.0") else Set()
     }
   )
+  .jvmSettings(Test / fork := true)
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
