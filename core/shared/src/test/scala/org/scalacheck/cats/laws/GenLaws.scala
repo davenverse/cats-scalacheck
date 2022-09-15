@@ -4,12 +4,15 @@ package org.scalacheck.cats.laws
 import cats.laws.discipline._
 import cats.kernel.laws.discipline._
 import cats.data.NonEmptyList
-import cats.tests.CatsSuite
 import org.scalacheck.Gen
 import org.scalacheck.cats.ScalaCheckSetup
 import org.scalacheck.cats.instances.GenInstances._
 
-class GenLaws extends CatsSuite with ScalaCheckSetup {
+class GenLaws extends munit.DisciplineSuite with ScalaCheckSetup {
+
+  override def scalaCheckTestParameters =
+    super.scalaCheckTestParameters.withMaxSize(20).withMinSuccessfulTests(20)
+  
   // Tests Alternative
   checkAll("Gen", AlternativeTests[Gen].alternative[Int, Int, Int])
   // Tests Monad
