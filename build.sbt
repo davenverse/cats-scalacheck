@@ -4,7 +4,7 @@ ThisBuild / crossScalaVersions := Seq("2.12.16", "2.13.8", "3.1.3")
 
 val catsV = "2.8.0"
 val disciplineMunit = "2.0.0-M3"
-val scalacheckV = "1.16.0"
+val scalacheckV = "1.17.0"
 
 lazy val root = project.in(file("."))
   .disablePlugins(MimaPlugin)
