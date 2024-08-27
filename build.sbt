@@ -1,19 +1,20 @@
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+import laika.helium.config._
 
-ThisBuild / crossScalaVersions := Seq("2.12.16", "2.13.8", "3.1.3")
+ThisBuild / tlBaseVersion := "0.3"
+ThisBuild / startYear := Some(2018)
+ThisBuild / organization := "io.chrisdavenport"
+ThisBuild / organizationName := "Davenverse"
+ThisBuild / licenses := Seq(License.Apache2)
+ThisBuild / homepage := Some(url(s"https://davenverse.github.io/cats-scalacheck"))
+ThisBuild / developers := List(tlGitHubDev("ChristopherDavenport", "Christopher Davenport"))
 
-val catsV = "2.8.0"
-val disciplineMunit = "2.0.0-M3"
-val scalacheckV = "1.16.0"
+ThisBuild / tlSitePublishBranch := Some("main")
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17"))
 
-lazy val root = project.in(file("."))
-  .disablePlugins(MimaPlugin)
-  .enablePlugins(NoPublishPlugin)
-  .aggregate(
-    coreJVM,
-    coreJS,
-    coreNative
-  )
+ThisBuild / tlVersionIntroduced := Map("3" -> "0.3.1")
+ThisBuild / crossScalaVersions := Seq("2.12.19", "2.13.14", "3.3.3")
+
+lazy val root = tlCrossRootProject.aggregate(core)
 
 lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
@@ -21,37 +22,37 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
     name := "cats-scalacheck",
     libraryDependencies ++= Seq(
-      "org.typelevel"               %%% "cats-core"                  % catsV,
-      "org.scalacheck"              %%% "scalacheck"                 % scalacheckV,
-
-      "org.typelevel"               %%% "cats-laws"                  % catsV % Test,
-      "org.typelevel"               %%% "discipline-munit"           % disciplineMunit % Test
-    ),
-    mimaVersionCheckExcludedVersions := {
-      if (isDotty.value) Set("0.3.0") else Set()
-    }
+      "org.typelevel" %%% "cats-core"        % "2.11.0",
+      "org.scalacheck" %%% "scalacheck"      % "1.17.1",
+      "org.typelevel" %%% "cats-laws"        % "2.11.0"   % Test,
+      "org.typelevel" %%% "discipline-munit" % "2.0.0-M3" % Test
+    )
   )
   .nativeSettings(
-    mimaVersionCheckExcludedVersions += "0.3.1"
+    tlVersionIntroduced := List("2.12", "2.13", "3").map(_ -> "0.3.2").toMap
   )
 
-lazy val coreJVM = core.jvm
-lazy val coreJS = core.js
-lazy val coreNative = core.native
-
-lazy val site = project.in(file("site"))
-  .disablePlugins(MimaPlugin)
-  .enablePlugins(NoPublishPlugin)
-  .enablePlugins(DavenverseMicrositePlugin)
+lazy val site = project
+  .in(file("site"))
+  .enablePlugins(TypelevelSitePlugin)
+  .dependsOn(core.jvm)
   .settings(
-    name := "cats-scalacheck-docs",
-    moduleName := "cats-scalacheck-docs",
-    mdocVariables := Map(
-      "VERSION" -> version.value
-    ),
-    micrositeName := "cats-scalacheck",
-    micrositeDescription := "Cats Instances for Scalacheck",
-    micrositeAuthor := "Christopher Davenport",
-    micrositeGithubOwner := "ChristopherDavenport",
+    scalaVersion := "3.3.3",
+    tlSiteHelium ~= {
+      _.site
+        .topNavigationBar(
+          homeLink =
+            TextLink.external("https://davenverse.github.io/cats-scalacheck", "Cats-Scalacheck")
+        )
+        .site
+        .mainNavigation(
+          appendLinks = List(
+            ThemeNavigationSection(
+              "Related Projects",
+              TextLink.external("https://github.com/typelevel/cats", "Cats"),
+              TextLink.external("https://github.com/typelevel/scalacheck", "Scalacheck")
+            )
+          )
+        )
+    }
   )
-  .dependsOn(coreJVM)
