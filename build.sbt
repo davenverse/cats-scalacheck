@@ -13,12 +13,12 @@ ThisBuild / developers := List(
 ThisBuild / tlCiReleaseBranches := Seq()
 
 val Scala213 = "2.13.18"
-ThisBuild / crossScalaVersions := Seq("2.12.20", Scala213, "3.3.8")
+ThisBuild / crossScalaVersions := Seq(Scala213, "3.3.8")
 ThisBuild / scalaVersion := Scala213
 
-val catsV = "2.8.0"
-val disciplineMunit = "2.0.0-M3"
-val scalacheckV = "1.16.0"
+val catsV = "2.13.0"
+val disciplineMunit = "2.0.0"
+val scalacheckV = "1.20.0"
 
 // Compiler settings DavenversePlugin injected globally. sbt-typelevel-ci-release
 // does not supply these (only sbt-typelevel-settings would).
